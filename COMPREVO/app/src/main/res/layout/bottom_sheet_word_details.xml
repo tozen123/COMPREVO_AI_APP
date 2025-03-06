@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="550dp"
+    android:padding="28dp"
+    android:orientation="vertical"
+    android:background="@drawable/bottom_sheet_bg">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/line_seperator"
+        android:layout_marginBottom="10dp"
+        >
+
+    </LinearLayout>
+    <!-- Word Display -->
+    <TextView
+        android:id="@+id/wordText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:letterSpacing="0.1"
+        android:fontFamily="@font/lilitaone_regular"/>
+
+    <TextView android:id="@+id/pronunciationText"
+        android:textColor="#FFFFFF"
+
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"/>
+
+    <!-- Loading Animation -->
+    <TextView
+        android:id="@+id/loadingText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Loading..."
+        android:textSize="48sp"
+        android:textColor="#FFFFFF"
+
+        android:paddingBottom="15dp"
+        android:gravity="center"
+        android:fontFamily="@font/lilitaone_regular"
+        />
+
+
+    <!-- Scrollable Word Details -->
+    <ScrollView
+        android:id="@+id/detailsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:visibility="gone"> <!-- Initially hidden until data is loaded -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
+
+
+            <!-- Definition -->
+            <TextView android:text="Definition:"
+                android:textColor="#FFFFFF"
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/definitionText"
+                android:textColor="#FFFFFF"
+
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"/>
+
+            <!-- Usage -->
+            <TextView android:text="Usage:"
+                android:textColor="#FFFFFF"
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/usageText"
+                android:textColor="#FFFFFF"
+
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"/>
+
+            <!-- Example Sentence -->
+            <TextView android:text="Example:"
+                android:textColor="#FFFFFF"
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/exampleText"
+                android:textColor="#FFFFFF"
+
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"/>
+
+            <!-- Similar Words -->
+            <TextView android:text="Similar Words:"
+                android:textColor="#FFFFFF"
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView android:id="@+id/similarText"
+                android:textColor="#FFFFFF"
+
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
