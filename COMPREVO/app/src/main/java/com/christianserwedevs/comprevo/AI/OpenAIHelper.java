@@ -20,26 +20,47 @@ public class OpenAIHelper {
     public static void fetchWordDetails(String word, OpenAIResponseCallback callback) {
         JSONObject jsonBody = new JSONObject();
         try {
-            String prompt = "Provide the following details for the word '" + word + "':\n" +
+//            String prompt = "Provide the following details that can be easily understand by 12-13 years old student for the word '" + word + "':\n" +
+//                    "- Definition\n" +
+//                    "- Usage in a sentence\n" +
+//                    "- An example sentence\n" +
+//                    "- Similar words (synonyms)\n" +
+//                    "- Pronunciation (IPA format, like /ˈhindər/)\n" +
+//                    "Format the response as JSON with these keys:\n" +
+//                    "{\n" +
+//                    "  \"definition\": \"<definition>\",\n" +
+//                    "  \"usage\": \"<usage>\",\n" +
+//                    "  \"example\": \"<example>\",\n" +
+//                    "  \"similar\": \"<similar words>\",\n" +
+//                    "  \"pronunciation\": \"<pronunciation>\"\n" +
+//                    "}";
+//
+//            jsonBody.put("model", "gpt-3.5-turbo");
+//            jsonBody.put("messages", new org.json.JSONArray()
+//                    .put(new JSONObject().put("role", "system").put("content", "You are a dictionary assistant."))
+//                    .put(new JSONObject().put("role", "user").put("content", prompt)));
+//            jsonBody.put("max_tokens", 200);
+
+            String prompt = "Explain the word '" + word + "' in simple words for a 9-13 year old with:\n" +
                     "- Definition\n" +
-                    "- Usage in a sentence\n" +
-                    "- An example sentence\n" +
-                    "- Similar words (synonyms)\n" +
-                    "- Pronunciation (IPA format, like /ˈhindər/)\n" +
-                    "Format the response as JSON with these keys:\n" +
+                    "- Usage\n" +
+                    "- Example\n" +
+                    "- Synonyms\n" +
+                    "- Pronunciation (IPA format)\n" +
+                    "Respond in JSON format:\n" +
                     "{\n" +
                     "  \"definition\": \"<definition>\",\n" +
                     "  \"usage\": \"<usage>\",\n" +
                     "  \"example\": \"<example>\",\n" +
-                    "  \"similar\": \"<similar words>\",\n" +
+                    "  \"similar\": \"<synonyms>\",\n" +
                     "  \"pronunciation\": \"<pronunciation>\"\n" +
                     "}";
 
             jsonBody.put("model", "gpt-3.5-turbo");
             jsonBody.put("messages", new org.json.JSONArray()
-                    .put(new JSONObject().put("role", "system").put("content", "You are a dictionary assistant."))
+                    .put(new JSONObject().put("role", "system").put("content", "You are a helpful dictionary assistant."))
                     .put(new JSONObject().put("role", "user").put("content", prompt)));
-            jsonBody.put("max_tokens", 200);
+            jsonBody.put("max_tokens", 150);
         } catch (Exception e) {
             callback.onFailure("Error creating JSON body: " + e.getMessage());
             return;
@@ -78,11 +99,9 @@ public class OpenAIHelper {
                             .replace("\r", "")
                             .replace("\\", ""); // Ensure it is valid JSON
 
-                    // Remove the first and last curly braces if necessary
                     if (aiResponse.startsWith("{") && aiResponse.endsWith("}")) {
                         JSONObject responseJson = new JSONObject(aiResponse);
 
-                        // Extract data safely
                         String definition = responseJson.optString("definition", "No definition found.");
                         String usage = responseJson.optString("usage", "No usage found.");
                         String example = responseJson.optString("example", "No example found.");

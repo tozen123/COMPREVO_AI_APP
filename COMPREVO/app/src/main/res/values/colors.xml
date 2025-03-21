@@ -3,8 +3,14 @@
     <color name="orange">#E27221</color>
     <color name="white">#F3DFC2</color>
     <color name="font">#323232</color>
-    <color name="brown">#2F5365</color>
+    <color name="brown">#9BC9F8</color>
     <color name="lightorange">#FAE477</color>
-    <color name="violet">#E1723F</color>
+    <color name="violet">#F1A0C5</color>
     <color name="truewhite">#FFFFFF</color>
+
+    <color name="wrong_answer">#F65454</color>
+    <color name="correct_answer">#73DF7E</color>
+
+
+
 </resources>

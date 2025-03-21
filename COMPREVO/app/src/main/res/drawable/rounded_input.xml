@@ -10,7 +10,7 @@
 
     <stroke
         android:width="8dp"
-        android:color="#50DF65" />
+        android:color="#E49ABC" />
 
     <!-- Padding inside the input field -->
     <padding

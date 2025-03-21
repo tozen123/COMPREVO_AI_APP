@@ -8,8 +8,8 @@
     <!-- Linear Gradient Background -->
     <gradient
         android:angle="270"
-        android:startColor="#58F36F"
-        android:endColor="#50DF65"
+        android:startColor="#F1AECD"
+        android:endColor="#E49ABC"
         android:type="linear" />
 
     <!-- Stroke (Border) -->

@@ -27,13 +27,14 @@
 
     <TextView android:id="@+id/pronunciationText"
         android:textColor="#FFFFFF"
+        android:fontFamily="@font/noto_sans"
 
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"/>
 
-    <!-- Loading Animation -->
+<!--     Loading Animation -->
     <TextView
         android:id="@+id/loadingText"
         android:layout_width="match_parent"
@@ -68,74 +69,135 @@
 
 
             <!-- Definition -->
-            <TextView android:text="Definition:"
+            <TextView
+                android:id="@+id/definitionLine"
+
+                android:text="Definition:"
                 android:textColor="#FFFFFF"
 
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+
+                android:background="@drawable/text_holder_bg_violet"
+                android:padding="4dp"
+
+                android:paddingStart="12dp"
+
+                />
 
             <TextView android:id="@+id/definitionText"
                 android:textColor="#FFFFFF"
 
-                android:textSize="16sp"
+                android:padding="8dp"
+                android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"/>
+                android:paddingBottom="10dp"
+                android:fontFamily="@font/noto_sans"
+
+                android:layout_margin="5dp"
+                />
 
             <!-- Usage -->
             <TextView android:text="Usage:"
+                android:id="@+id/usageLine"
                 android:textColor="#FFFFFF"
+                android:fontFamily="@font/noto_sans"
+                android:paddingStart="12dp"
 
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/text_holder_bg_violet"
+                android:padding="4dp"/>
 
             <TextView android:id="@+id/usageText"
                 android:textColor="#FFFFFF"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/noto_sans"
 
-                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"/>
 
             <!-- Example Sentence -->
             <TextView android:text="Example:"
+                android:id="@+id/exampleLine"
                 android:textColor="#FFFFFF"
+                android:fontFamily="@font/noto_sans"
+                android:paddingStart="12dp"
 
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/text_holder_bg_violet"
+                android:padding="4dp"/>
 
             <TextView android:id="@+id/exampleText"
                 android:textColor="#FFFFFF"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/noto_sans"
 
-                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"/>
 
             <!-- Similar Words -->
             <TextView android:text="Similar Words:"
+                android:id="@+id/similarWordsLine"
+
                 android:textColor="#FFFFFF"
+                android:fontFamily="@font/noto_sans"
+                android:paddingStart="12dp"
 
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/text_holder_bg_violet"
+                android:padding="4dp"/>
 
             <TextView android:id="@+id/similarText"
                 android:textColor="#FFFFFF"
 
-                android:textSize="16sp"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:layout_margin="5dp"
+
+                android:fontFamily="@font/noto_sans"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"/>
 
 
+
+            <TextView android:id="@+id/labelGenerator"
+                android:textColor="#FFFFFF"
+
+                android:padding="4dp"
+                android:textSize="8sp"
+                android:layout_margin="4dp"
+                android:text="Generated By: GPT_TURBO_3.5"
+                android:fontFamily="@font/noto_sans"
+
+                android:gravity="end"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+             />
 
         </LinearLayout>
     </ScrollView>

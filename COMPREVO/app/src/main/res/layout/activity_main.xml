@@ -21,28 +21,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:elevation="8dp"
+
         >
 
     </Button>
 
-    <!-- Logo -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/comprevo_logo"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+
 
 
     <LinearLayout
         android:id="@+id/headerProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-65dp"
+        android:layout_marginTop="-55dp"
 
 
         android:background="@drawable/profile_holder_backgournd"
@@ -83,10 +74,9 @@
         android:src="@drawable/comprevo_logo_text"
 
 
-        android:layout_marginTop="-60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 
@@ -98,10 +88,7 @@
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerProfile"
-        android:background="@drawable/scroll_background"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:layout_marginTop="-1dp">
+        >
 
         <GridLayout
             android:id="@+id/gridLayout"
@@ -109,10 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:columnCount="2"
-            android:paddingTop="28dp"
-            android:paddingBottom="58dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+
             android:rowCount="3">
 
             <!-- Card 1 -->
@@ -178,7 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/how_the_world_was_created_cover"/>
+                        android:src="@drawable/my_father_goes_to_court_book_cover"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -221,7 +205,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/how_the_world_was_created_cover"/>
+                        android:src="@drawable/obesity_book_cover"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"

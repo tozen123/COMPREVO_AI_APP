@@ -23,9 +23,12 @@ import android.widget.ScrollView;
 
 public class WordBottomSheetDialog extends BottomSheetDialog {
     private TextView definitionTextView, usageTextView, exampleTextView, similarTextView, pronunciationTextView, loadingTextView;
+
+    private TextView definitionLine, usageLine, exampleLine, similarWordLine;
+
     private ScrollView detailsContainer;
     private static HashMap<String, String[]> aiCache = new HashMap<>();
-    private boolean isLoading = false; // Flag to track if loading animation is running
+    private boolean isLoading = false;
 
     public WordBottomSheetDialog(Context context, String word) {
         super(context);
@@ -41,9 +44,16 @@ public class WordBottomSheetDialog extends BottomSheetDialog {
         loadingTextView = view.findViewById(R.id.loadingText);
         detailsContainer = view.findViewById(R.id.detailsContainer);
 
+
+        definitionLine = view.findViewById(R.id.definitionLine);
+        usageLine = view.findViewById(R.id.usageLine);
+        exampleLine = view.findViewById(R.id.exampleLine);
+        similarWordLine = view.findViewById(R.id.similarWordsLine);
+
         // Format the word properly
         String formattedWord = formatWord(word);
         wordTextView.setText(formattedWord);
+
 
         // Check if the word is already cached
         if (aiCache.containsKey(formattedWord)) {
@@ -65,6 +75,16 @@ public class WordBottomSheetDialog extends BottomSheetDialog {
         OpenAIHelper.fetchWordDetails(word, new OpenAIHelper.OpenAIResponseCallback() {
             @Override
             public void onSuccess(String definition, String usage, String example, String similar, String pronunciation) {
+                definitionLine.setVisibility(View.VISIBLE);
+                usageLine.setVisibility(View.VISIBLE);
+                exampleLine.setVisibility(View.VISIBLE);
+                similarWordLine.setVisibility(View.VISIBLE);
+
+
+                usageLine.setVisibility(View.VISIBLE);
+                exampleLine.setVisibility(View.VISIBLE);
+                similarWordLine.setVisibility(View.VISIBLE);
+
                 String[] result = {definition, usage, example, similar, pronunciation};
 
                 // Save to cache
@@ -75,7 +95,19 @@ public class WordBottomSheetDialog extends BottomSheetDialog {
 
             @Override
             public void onFailure(String error) {
-                updateDetails(new String[]{"Error fetching details: " + error, "", "", "", ""});
+                //updateDetails(new String[]{"Error fetching details: " + error, "", "", "", ""});
+                definitionLine.setVisibility(View.GONE);
+                usageLine.setVisibility(View.GONE);
+                exampleLine.setVisibility(View.GONE);
+                similarWordLine.setVisibility(View.GONE);
+
+
+                usageLine.setVisibility(View.GONE);
+                exampleLine.setVisibility(View.GONE);
+                similarWordLine.setVisibility(View.GONE);
+
+                updateDetails(new String[]{"No Internet Connection. Cannot Connect to AI Services", "", "", "", ""});
+
             }
         });
     }

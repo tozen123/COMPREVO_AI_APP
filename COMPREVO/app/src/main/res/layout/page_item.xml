@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#CFF5FF"
+        android:background="@color/correct_answer"
         android:elevation="4dp"
 
         >
@@ -24,7 +24,7 @@
             android:layout_height="40dp"
             android:background="@drawable/back"
 
-            app:backgroundTint="#B112D5"
+            app:backgroundTint="@color/white"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
 
