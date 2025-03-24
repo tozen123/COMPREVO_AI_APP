@@ -9,23 +9,7 @@
 
     android:background="@drawable/background_blur"
 
-    android:padding="8dp"
     >
-
-    <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/settings_icon"
-        app:backgroundTint="@color/violet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="8dp"
-
-        >
-
-    </Button>
-
 
 
 
@@ -33,50 +17,85 @@
         android:id="@+id/headerProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-55dp"
 
 
         android:background="@drawable/profile_holder_backgournd"
         android:orientation="vertical"
-        android:padding="14dp"
+        android:padding="21dp"
         app:layout_constraintEnd_toEndOf="parent"
 
 
-
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/userNameTxt"
 
+
+        <ImageView
+            android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello, %userName%"
-            android:textSize="24sp"
-            android:fontFamily="@font/lilitaone_regular"
+            android:layout_height="50dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/comprevo_logo_text">
+
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@drawable/line_seperator"
+            android:backgroundTint="#B8E9FF"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="38dp"
-            android:textColor="#FFFFFF"
 
             >
 
-        </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            >
+
+            <TextView
+                android:id="@+id/userNameTxt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/lilitaone_regular"
+                android:text="Hello, %userName%"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:gravity="center_vertical"
+                android:layout_marginStart="12dp"
+
+                />
+            <Button
+                android:id="@+id/trophyButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/trophy_icon"
+                app:backgroundTint="@color/truewhite"
+                android:elevation="18dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="18dp"
+                />
+
+            <Button
+                android:id="@+id/settingsButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/settings_icon"
+                app:backgroundTint="@color/truewhite"
+                android:elevation="18dp"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+
+
 
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:src="@drawable/comprevo_logo_text"
-
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 
@@ -107,13 +126,15 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:background="@drawable/card_border"
-                android:padding="8dp">
+                android:padding="8dp"
+                >
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="305dp"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
+                    app:cardElevation="0dp"
+                 >
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -154,7 +175,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="305dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 
@@ -197,7 +218,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="305dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 
@@ -240,7 +261,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="305dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 
@@ -281,7 +302,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="305dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 

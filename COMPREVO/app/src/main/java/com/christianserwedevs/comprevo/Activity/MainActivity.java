@@ -20,7 +20,7 @@ import com.christianserwedevs.comprevo.R;
 public class MainActivity extends AppCompatActivity {
     public TextView userNameTxt;
     private SharedPreferences sharedPreferences;
-    private Button settingsButton;
+    private Button settingsButton, trophyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
             return insets;
         });
 
@@ -39,12 +41,22 @@ public class MainActivity extends AppCompatActivity {
         userNameTxt = findViewById(R.id.userNameTxt);
         userNameTxt.setText("Hello, " + sharedPreferences.getString("username", "null"));
 
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
         settingsButton = findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-            finish();
+        trophyButton = findViewById(R.id.trophyButton);
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            }
+        });
+
+        trophyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ScoreHistoryProgressActivity.class));
+            }
         });
 
         findViewById(R.id.card1).setOnClickListener(v -> openBookActivity("HOW THE WORLD WAS CREATED (PANAYAN)"));

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.christianserwedevs.comprevo.Activity.SplashScreenActivity;
+import com.christianserwedevs.comprevo.Activity.StartMenuActivity;
 import com.christianserwedevs.comprevo.Activity.UserCreationActivity;
 
 public class LauncherActivity extends AppCompatActivity {
@@ -21,7 +22,7 @@ public class LauncherActivity extends AppCompatActivity {
         if (username == null || username.isEmpty()) {
             startActivity(new Intent(this, UserCreationActivity.class));
         } else {
-            startActivity(new Intent(this, SplashScreenActivity.class));
+            startActivity(new Intent(this, StartMenuActivity.class));
         }
 
         finish();

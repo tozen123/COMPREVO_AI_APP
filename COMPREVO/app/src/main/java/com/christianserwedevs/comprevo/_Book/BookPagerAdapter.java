@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -19,15 +20,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.christianserwedevs.comprevo.R;
+import com.christianserwedevs.comprevo.Utilities.ConfirmationDialog;
 import com.christianserwedevs.comprevo.Utilities.WordBottomSheetDialog;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.Position;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
+import nl.dionsegijn.konfetti.xml.image.ImageUtil;
+
 
 public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.PageViewHolder> {
 
@@ -53,11 +68,38 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
         BookPage bookPage = book.getPages().get(position);
 
         Log.d("PageTracking", "Loading Page: " + position);
+
         holder.imageView.setImageResource(bookPage.getImageResId());
         setupWordTextViews(holder.wordContainer, bookPage.getText());
 
+        holder.bookTitle.setText(book.getTitle());
+        holder.bookCurrentPage.setText("Page " + (position + 1) + " / " + book.getPages().size());
+
+        holder.backButton.setOnClickListener(v -> {
+            ConfirmationDialog.show(context, new ConfirmationDialog.ConfirmationListener() {
+                @Override
+                public void onConfirm() {
+                    if (context instanceof Activity) {
+                        ((Activity) context).finish();
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+                }
+            });
+        });
+
+        holder.mainMenuBackButton.setOnClickListener(v -> {
+            if (context instanceof Activity) {
+                ((Activity) context).finish();
+            }
+        });
+
+
 
     }
+
 
 
     private void setupWordTextViews(FlexboxLayout wordContainer, String text) {
@@ -120,44 +162,65 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
         LinearLayout explanationLayout = dialogView.findViewById(R.id.explanationLayout);
         TextView answerStatusText = dialogView.findViewById(R.id.answerStatusText);
         TextView explanationText = dialogView.findViewById(R.id.explanationText);
+        TextView detailedExplanationText = dialogView.findViewById(R.id.detailedExplanationText); // New Detailed Explanation TextView
+        Button btnMoreInfo = dialogView.findViewById(R.id.btnMoreInfo); // New "More Info" Button
         Button nextButton = dialogView.findViewById(R.id.btnNext);
 
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 
-        updateQuestion(questionText, counterText, radioGroup, quizSets, explanationLayout, answerStatusText, explanationText, nextButton, currentQuestionIndex[0]);
+        updateQuestion(questionText, counterText, radioGroup, quizSets, explanationLayout, answerStatusText, explanationText, detailedExplanationText, nextButton, btnMoreInfo, currentQuestionIndex[0]);
 
-        final boolean[] isAnswerCorrect = {false}; // Track if the selected answer is correct
+        final boolean[] isAnswerCorrect = {false};
 
         // Show explanation immediately after clicking an answer
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             QuizSet currentQuiz = quizSets.get(currentQuestionIndex[0]);
-
-            // Map RadioButton position (0 = A, 1 = B, 2 = C, 3 = D) to QuizSet format (1 = A, 2 = B, etc.)
             int selectedAnswerIndex = -1;
+
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
                 if (radioGroup.getChildAt(i).getId() == checkedId) {
-                    selectedAnswerIndex = i + 1; // +1 to match your QuizSet indexing
+                    selectedAnswerIndex = i + 1;
                     break;
                 }
             }
 
             explanationLayout.setVisibility(View.VISIBLE);
 
-            // Determine Correct or Wrong Answer
             if (selectedAnswerIndex == currentQuiz.getCorrectAnswerIndex()) {
                 answerStatusText.setText("Correct Answer");
                 answerStatusText.setBackgroundColor(context.getResources().getColor(R.color.correct_answer));
-                isAnswerCorrect[0] = true; // Mark this as a correct answer
+                isAnswerCorrect[0] = true;
+
+
             } else {
                 answerStatusText.setText("Wrong Answer");
                 answerStatusText.setBackgroundColor(context.getResources().getColor(R.color.wrong_answer));
-                isAnswerCorrect[0] = false; // Mark this as an incorrect answer
+                isAnswerCorrect[0] = false;
             }
 
             explanationText.setText("Explanation: " + currentQuiz.getExplanation());
+            if(currentQuiz.getDetailedExplanation().isEmpty()){
+                detailedExplanationText.setText("No detailed explanation");
 
-            // Disable all RadioButtons after selection
+            } else {
+                detailedExplanationText.setText(currentQuiz.getDetailedExplanation());
+
+            }
+
+            btnMoreInfo.setVisibility(View.VISIBLE);
+            detailedExplanationText.setVisibility(View.GONE);
+
+            btnMoreInfo.setOnClickListener(v -> {
+                if (detailedExplanationText.getVisibility() == View.GONE) {
+                    detailedExplanationText.setVisibility(View.VISIBLE);
+                    btnMoreInfo.setText("Hide Info");
+                } else {
+                    detailedExplanationText.setVisibility(View.GONE);
+                    btnMoreInfo.setText("More Info");
+                }
+            });
+
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
                 radioGroup.getChildAt(i).setEnabled(false);
             }
@@ -169,15 +232,14 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
                 Toast.makeText(context, "Please select an answer!", Toast.LENGTH_SHORT).show();
             } else {
                 if (isAnswerCorrect[0]) {
-                    correctAnswers[0]++; // Count score correctly
+                    correctAnswers[0]++;
                 }
 
                 if (currentQuestionIndex[0] < quizSets.size() - 1) {
                     currentQuestionIndex[0]++;
                     radioGroup.clearCheck();
-                    updateQuestion(questionText, counterText, radioGroup, quizSets, explanationLayout, answerStatusText, explanationText, nextButton, currentQuestionIndex[0]);
+                    updateQuestion(questionText, counterText, radioGroup, quizSets, explanationLayout, answerStatusText, explanationText, detailedExplanationText, nextButton, btnMoreInfo, currentQuestionIndex[0]);
                 } else {
-                    totalScore += correctAnswers[0];
                     dialog.dismiss();
                     showFinalScore(correctAnswers[0], quizSets.size(), holder, pagePosition);
                 }
@@ -192,10 +254,17 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
 
 
 
+    private int dpToPx(int dp) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
+    }
+
 
     private void updateQuestion(TextView questionText, TextView counterText, RadioGroup radioGroup,
-                                List<QuizSet> quizSets, LinearLayout explanationLayout, TextView answerStatusText,
-                                TextView explanationText, Button nextButton, int questionIndex) {
+                                List<QuizSet> quizSets, LinearLayout explanationLayout,
+                                TextView answerStatusText, TextView explanationText,
+                                TextView detailedExplanationText, Button nextButton,
+                                Button btnMoreInfo, int questionIndex) {
+
         QuizSet quizSet = quizSets.get(questionIndex);
         questionText.setText(quizSet.getQuestion());
         counterText.setText((questionIndex + 1) + "/" + quizSets.size());
@@ -204,39 +273,48 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
         for (int i = 0; i < quizSet.getChoices().length; i++) {
             RadioButton radioButton = new RadioButton(context);
             radioButton.setText(quizSet.getChoices()[i]);
+            radioButton.setId(View.generateViewId());
 
-            Typeface typeface = ResourcesCompat.getFont(context, R.font.lilitaone_regular); // Change this to your desired font
+            Typeface typeface = ResourcesCompat.getFont(context, R.font.lilitaone_regular);
             radioButton.setTypeface(typeface);
 
             radioButton.setTextColor(context.getResources().getColor(R.color.truewhite));
             radioButton.setTextSize(16);
-
-
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(0, 18, 0, 0); // Top Margin: 12dp for spacing
-            radioButton.setLayoutParams(layoutParams);
-
-            radioButton.setId(View.generateViewId());
-            radioButton.setEnabled(true);
+            params.setMargins(0, dpToPx(12), 0, 0);
+            radioButton.setLayoutParams(params);
             radioGroup.addView(radioButton);
         }
 
-        // Hide explanation layout and reset Correct/Wrong Label
         explanationLayout.setVisibility(View.GONE);
-        answerStatusText.setText("");  // Clear Correct/Wrong status
+        answerStatusText.setText("");
 
-        // Change Next Button to "Finish" if it's the last question
         if (questionIndex == quizSets.size() - 1) {
             nextButton.setText("Finish");
         } else {
             nextButton.setText("Next");
         }
+
+        // Reset Explanation Visibility
+        explanationLayout.setVisibility(View.GONE);
+        detailedExplanationText.setVisibility(View.GONE);
+        btnMoreInfo.setVisibility(View.GONE);
     }
 
+
+    private void saveScoreToPreferences(String bookTitle, int currentScore) {
+        int previousScore = context.getSharedPreferences("BookScores", Context.MODE_PRIVATE)
+                .getInt(bookTitle, 0);
+
+        context.getSharedPreferences("BookScores", Context.MODE_PRIVATE)
+                .edit()
+                .putInt(bookTitle + "_prev", previousScore)
+                .putInt(bookTitle, currentScore)
+                .apply();
+    }
 
 
 
@@ -255,8 +333,9 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
 
         // Display Score
         resultText.setText(correctAnswers + "/" + totalQuestions);
+        totalScore += correctAnswers;
 
-        // Custom Encouragement Message Based on Performance
+
         if (correctAnswers == totalQuestions) {
             encouragementText.setText("Perfect Score! Excellent work!");
         } else if (correctAnswers >= totalQuestions / 2) {
@@ -268,10 +347,77 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 
-        btnOk.setOnClickListener(v -> dialog.dismiss());
+        btnOk.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            if (pagePosition == book.getPages().size() - 1) {
+                holder.finalPageDisplay.setVisibility(View.VISIBLE);
+                holder.wordContainer.setVisibility(View.INVISIBLE);
+
+                int previousScore = context.getSharedPreferences("BookScores", Context.MODE_PRIVATE)
+                        .getInt(book.getTitle() + "_prev", 0);
+
+                saveScoreToPreferences(book.getTitle(), totalScore);
+
+                holder.label2.setText("Your Previous Score: " + previousScore);
+                holder.label3.setText("Your Current score: " + totalScore );
+
+
+                if (book.getTitle().equalsIgnoreCase("HOW THE WORLD WAS CREATED (PANAYAN)")) {
+                    if (totalScore >= 1 && totalScore <= 9) {
+                        holder.label4.setText("Every great achiever started as a beginner. Don't give up!");
+                    } else if (totalScore >= 10 && totalScore <= 12) {
+                        holder.label4.setText("Step by step, you’re getting stronger. Keep learning!");
+                    } else if (totalScore >= 13 && totalScore <= 15) {
+                        holder.label4.setText("You’re shining bright! Keep up the amazing work!");
+                    }
+                } else if (book.getTitle().equalsIgnoreCase("Obesity (Essay)")) {
+                    if (totalScore >= 1 && totalScore <= 9) {
+                        holder.label4.setText("Every try brings you closer to success. Keep pushing forward!");
+                    } else if (totalScore >= 10 && totalScore <= 12) {
+                        holder.label4.setText("You're making progress! Learning is a journey, not a race!");
+                    } else if (totalScore >= 13 && totalScore <= 15) {
+                        holder.label4.setText("Unstoppable! You've conquered this challenge with excellence!");
+                    }
+                } else if (book.getTitle().equalsIgnoreCase("The God Stealer")) {
+                    if (totalScore >= 1 && totalScore <= 9) {
+                        holder.label4.setText("Step by step, you're getting there. Keep going!");
+                    } else if (totalScore >= 10 && totalScore <= 12) {
+                        holder.label4.setText("Look at how far you’ve come. Push forward!");
+                    } else if (totalScore >= 13 && totalScore <= 15) {
+                        holder.label4.setText("Victory! You made it to the finish line! Great job!");
+                    }
+                } else {
+                    holder.label4.setText("Great effort! Keep pushing forward!");
+                }
+
+
+
+                KonfettiView konfettiView = holder.konfettiView;
+
+                final Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_heart);
+                Shape.DrawableShape drawableShape = ImageUtil.loadDrawable(drawable, true, true);
+
+                EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);
+
+                Party party = new PartyFactory(emitterConfig)
+                        .angle(270)
+                        .spread(90)
+                        .setSpeedBetween(1f, 5f)
+                        .timeToLive(5000L)
+                        .shapes(new Shape.Rectangle(0.2f), drawableShape) // Corrected
+                        .sizes(new Size(12, 5f, 0.2f))
+                        .position(0.0, 0.0, 1.0, 0.0)
+                        .build();
+
+                konfettiView.start(party);
+                Toast.makeText(context, "Story Completed! Score Saved!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         dialog.show();
     }
+
 
 
     @Override
@@ -280,13 +426,39 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
     }
 
     public static class PageViewHolder extends RecyclerView.ViewHolder {
-        FlexboxLayout wordContainer;
+        public FlexboxLayout wordContainer;
         ImageView imageView;
+
+        LinearLayout headerLayout;
+        Button backButton;
+        Button mainMenuBackButton;
+        TextView bookTitle;
+        TextView bookCurrentPage;
+        public TextView label2, label3, label4;  // Change this to public
+
+        KonfettiView konfettiView;
+        // New Final Page Display
+        public LinearLayout finalPageDisplay;
 
         public PageViewHolder(View itemView) {
             super(itemView);
             wordContainer = itemView.findViewById(R.id.wordContainer);
             imageView = itemView.findViewById(R.id.imageView);
+
+            headerLayout = itemView.findViewById(R.id.linearLayout);
+            backButton = itemView.findViewById(R.id.backButton);
+            bookTitle = itemView.findViewById(R.id.bookTitle);
+            bookCurrentPage = itemView.findViewById(R.id.bookCurrentPage);
+
+            finalPageDisplay = itemView.findViewById(R.id.finalPageDisplay);
+            label2 = itemView.findViewById(R.id.label2);
+            label3 = itemView.findViewById(R.id.label3);
+            label4 = itemView.findViewById(R.id.label4);
+            mainMenuBackButton = itemView.findViewById(R.id.mainMenuBackButton);
+            konfettiView = itemView.findViewById(R.id.konfettiView);
         }
     }
+
+
+
 }

@@ -52,7 +52,7 @@ public class UserCreationActivity extends AppCompatActivity {
 
                     Toast.makeText(UserCreationActivity.this, "Username saved!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(UserCreationActivity.this, MainActivity.class);
+                    Intent intent = new Intent(UserCreationActivity.this, StartMenuActivity.class);
                     startActivity(intent);
 
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

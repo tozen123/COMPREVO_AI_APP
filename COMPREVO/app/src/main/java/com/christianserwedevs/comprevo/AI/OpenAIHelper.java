@@ -85,7 +85,10 @@ public class OpenAIHelper {
                 String responseData = response.body().string();
                 try {
                     JSONObject jsonResponse = new JSONObject(responseData);
-                    String aiResponse = jsonResponse.getJSONArray("choices")
+
+                    // Extract the 'content' from 'choices' array
+                    String aiResponse = jsonResponse
+                            .getJSONArray("choices")
                             .getJSONObject(0)
                             .getJSONObject("message")
                             .getString("content");
@@ -93,11 +96,16 @@ public class OpenAIHelper {
                     // Debugging: Print the full AI response
                     System.out.println("Raw OpenAI Response: " + aiResponse);
 
-                    // Fix: Clean up the response by removing extra spaces and line breaks
+                    // Clean up JSON formatting
                     aiResponse = aiResponse.trim()
+                            .replace("```json", "")
+                            .replace("```", "")
                             .replace("\n", "")
                             .replace("\r", "")
-                            .replace("\\", ""); // Ensure it is valid JSON
+                            .replace("\\", "");
+                    System.out.println("Raw OpenAI Response: " + aiResponse);
+
+
 
                     if (aiResponse.startsWith("{") && aiResponse.endsWith("}")) {
                         JSONObject responseJson = new JSONObject(aiResponse);

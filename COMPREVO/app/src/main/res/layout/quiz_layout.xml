@@ -8,7 +8,6 @@
     android:padding="16dp"
     android:background="#EBA6C6">
 
-
     <TextView
         android:id="@+id/counterText"
         android:layout_width="match_parent"
@@ -18,10 +17,7 @@
         android:textColor="@color/truewhite"
         android:gravity="end"
         tools:text="$/$"
-
-        android:fontFamily="@font/lilitaone_regular"
-
-        />
+        android:fontFamily="@font/lilitaone_regular"/>
 
     <!-- Question Text -->
     <TextView
@@ -35,9 +31,6 @@
         android:paddingBottom="8dp"
         android:fontFamily="@font/lilitaone_regular"
         tools:text="What is the capital of France?" />
-
-    <!-- Counter for Progress -->
-
 
     <!-- Radio Group for Quiz Choices -->
     <RadioGroup
@@ -53,13 +46,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@drawable/rounded_panel"
         android:backgroundTint="#FFFFFF"
         android:padding="18dp"
         android:layout_marginTop="12dp">
 
-        <!-- Correct/Wrong Indicator -->
         <TextView
             android:id="@+id/answerStatusText"
             android:layout_width="match_parent"
@@ -71,16 +63,51 @@
             android:padding="6dp"
             android:layout_marginBottom="8dp"
             android:background="#F65454"
-            tools:text="Wrong Answer" />
+            tools:text="Wrong Answer"
+            android:fontFamily="@font/lilitaone_regular"/>
 
+        <!-- General Explanation -->
         <TextView
             android:id="@+id/explanationText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="italic"
+            android:textColor="#4C4C4C"
+            android:textSize="14sp"
+            android:fontFamily="@font/lilitaone_regular"
             tools:text="Explanation: The correct answer is Paris because..." />
+
+        <!-- "More Info" Button -->
+        <Button
+            android:id="@+id/btnMoreInfo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:text="More Info"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/more_info"
+            app:backgroundTint="#303030"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/detailedExplanationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#4C4C4C"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:fontFamily="@font/lilitaone_regular"
+                tools:text="Paris became the capital of France in the 10th century when King Hugh Capet established the Capetian dynasty. Its strategic location along the Seine River played a key role in its prominence."
+                android:padding="8dp"/>
+
+        </ScrollView>
+
     </LinearLayout>
 
     <!-- Next Button -->
@@ -93,8 +120,6 @@
         app:backgroundTint="@null"
         android:textColor="@android:color/white"
         android:layout_marginTop="8dp"
-
         android:textSize="28sp"
-        android:fontFamily="@font/lilitaone_regular"
-        />
+        android:fontFamily="@font/lilitaone_regular"/>
 </LinearLayout>
