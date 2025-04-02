@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.christianserwedevs.comprevo.R;
+import com.christianserwedevs.comprevo.SoundEffectPlayer;
 
 public class ConfirmationDialog {
 
@@ -27,10 +28,12 @@ public class ConfirmationDialog {
         confirmationText.setText("Are you sure you want to go back to the main menu?\n\nYour progress will not be saved.");
 
         confirmButton.setOnClickListener(v -> {
+            SoundEffectPlayer.playButtonSound(v.getContext());
             listener.onConfirm();
         });
 
         cancelButton.setOnClickListener(v -> {
+            SoundEffectPlayer.playButtonSound(v.getContext());
             listener.onCancel();
         });
 

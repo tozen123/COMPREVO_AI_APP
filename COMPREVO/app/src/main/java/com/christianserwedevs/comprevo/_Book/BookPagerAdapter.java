@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.christianserwedevs.comprevo.R;
+import com.christianserwedevs.comprevo.SoundEffectPlayer;
 import com.christianserwedevs.comprevo.Utilities.ConfirmationDialog;
 import com.christianserwedevs.comprevo.Utilities.WordBottomSheetDialog;
 import com.google.android.flexbox.FlexboxLayout;
@@ -100,8 +102,6 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
 
     }
 
-
-
     private void setupWordTextViews(FlexboxLayout wordContainer, String text) {
         wordContainer.removeAllViews();
         String[] words = text.split("\\s+");
@@ -109,14 +109,19 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
         for (String word : words) {
             TextView wordTextView = new TextView(context);
             wordTextView.setText(word);
-            wordTextView.setTextSize(17);
-            wordTextView.setPadding(6, 3, 6, 3);
+            wordTextView.setTextSize(16);
+            wordTextView.setPadding(6, 2, 6, 2);
             wordTextView.setTextColor(context.getResources().getColor(R.color.font));
 
             Typeface typeface = ResourcesCompat.getFont(context, R.font.noto_sans);
             wordTextView.setTypeface(typeface);
 
             wordTextView.setBackgroundResource(R.drawable.transparent_background);
+
+            // Set text alignment to start (left-aligned)
+            wordTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+            // Alternatively, you can use:
+            wordTextView.setGravity(Gravity.START);
 
             wordTextView.setOnClickListener(v -> animateWordHighlight(wordTextView));
 
@@ -132,6 +137,42 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
             wordContainer.addView(wordTextView);
         }
     }
+    private void startCountdown(Runnable onFinish, TextView countdownText, LinearLayout countdownLayout, LinearLayout quizContentLayout) {
+        countdownLayout.setVisibility(View.VISIBLE);
+        quizContentLayout.setVisibility(View.GONE);
+        countdownText.setVisibility(View.VISIBLE);
+
+        final int[] count = {3};
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        Runnable countdownRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (count[0] > 0) {
+                    countdownText.setText(String.valueOf(count[0]));
+
+                    // Animate scale (resizing effect)
+                    countdownText.setScaleX(0f);
+                    countdownText.setScaleY(0f);
+                    countdownText.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(300)
+                            .start();
+
+                    count[0]--;
+                    handler.postDelayed(this, 1000);
+                } else {
+                    countdownLayout.setVisibility(View.GONE);
+                    quizContentLayout.setVisibility(View.VISIBLE);
+                    onFinish.run();
+                }
+            }
+        };
+
+        handler.post(countdownRunnable);
+    }
+
 
     private void animateWordHighlight(TextView wordTextView) {
         wordTextView.setBackgroundResource(R.drawable.word_background);
@@ -146,6 +187,7 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
             }).start();
         }, 1000);
     }
+
 
     public void showQuizDialog(BookPage bookPage, PageViewHolder holder, int pagePosition) {
         List<QuizSet> quizSets = bookPage.getQuizSets();
@@ -165,13 +207,21 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
         TextView detailedExplanationText = dialogView.findViewById(R.id.detailedExplanationText); // New Detailed Explanation TextView
         Button btnMoreInfo = dialogView.findViewById(R.id.btnMoreInfo); // New "More Info" Button
         Button nextButton = dialogView.findViewById(R.id.btnNext);
+        TextView countdownText = dialogView.findViewById(R.id.countdownText);
+        LinearLayout countdownLayout = dialogView.findViewById(R.id.countdownLayout);
+        LinearLayout quizContentLayout = dialogView.findViewById(R.id.quizContentLayout);
 
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
 
-        updateQuestion(questionText, counterText, radioGroup, quizSets, explanationLayout, answerStatusText, explanationText, detailedExplanationText, nextButton, btnMoreInfo, currentQuestionIndex[0]);
+        startCountdown(() -> {
+            updateQuestion(questionText, counterText, radioGroup, quizSets,
+                    explanationLayout, answerStatusText, explanationText,
+                    detailedExplanationText, nextButton, btnMoreInfo, currentQuestionIndex[0]);
+        }, countdownText, countdownLayout, quizContentLayout);
 
         final boolean[] isAnswerCorrect = {false};
+        final boolean[] soundPlayed = {false};
 
         // Show explanation immediately after clicking an answer
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -188,12 +238,20 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
             explanationLayout.setVisibility(View.VISIBLE);
 
             if (selectedAnswerIndex == currentQuiz.getCorrectAnswerIndex()) {
+                if (!soundPlayed[0]) {
+                    SoundEffectPlayer.playCorrectSound(context);
+                    soundPlayed[0] = true;
+                }
                 answerStatusText.setText("Correct Answer");
                 answerStatusText.setBackgroundColor(context.getResources().getColor(R.color.correct_answer));
                 isAnswerCorrect[0] = true;
 
 
             } else {
+                if (!soundPlayed[0]) {
+                    SoundEffectPlayer.playWrongSound(context);
+                    soundPlayed[0] = true;
+                }
                 answerStatusText.setText("Wrong Answer");
                 answerStatusText.setBackgroundColor(context.getResources().getColor(R.color.wrong_answer));
                 isAnswerCorrect[0] = false;
@@ -238,7 +296,12 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
                 if (currentQuestionIndex[0] < quizSets.size() - 1) {
                     currentQuestionIndex[0]++;
                     radioGroup.clearCheck();
-                    updateQuestion(questionText, counterText, radioGroup, quizSets, explanationLayout, answerStatusText, explanationText, detailedExplanationText, nextButton, btnMoreInfo, currentQuestionIndex[0]);
+                    soundPlayed[0] = false;
+                    startCountdown(() -> {
+                        updateQuestion(questionText, counterText, radioGroup, quizSets,
+                                explanationLayout, answerStatusText, explanationText,
+                                detailedExplanationText, nextButton, btnMoreInfo, currentQuestionIndex[0]);
+                    }, countdownText, countdownLayout, quizContentLayout);
                 } else {
                     dialog.dismiss();
                     showFinalScore(correctAnswers[0], quizSets.size(), holder, pagePosition);
@@ -387,7 +450,25 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
                     } else if (totalScore >= 13 && totalScore <= 15) {
                         holder.label4.setText("Victory! You made it to the finish line! Great job!");
                     }
-                } else {
+                }
+                else if (book.getTitle().equalsIgnoreCase("My Father Goes To Court")) {
+                    if (totalScore >= 1 && totalScore <= 9) {
+                        holder.label4.setText("Each attempt is a progress. Don't give up!");
+                    } else if (totalScore >= 10 && totalScore <= 12) {
+                        holder.label4.setText("That was pretty good! You're just one more 'aha'! moment from perfection");
+                    } else if (totalScore >= 13 && totalScore <= 15) {
+                        holder.label4.setText("You've demonstrated your ability— keep reaching for the top");
+                    }
+                }else if (book.getTitle().equalsIgnoreCase("The Philippines Battle Against Deforestation")) {
+                if (totalScore >= 1 && totalScore <= 9) {
+                    holder.label4.setText("This is just a stepping stone to greater achievements. Keep climbing!");
+                } else if (totalScore >= 10 && totalScore <= 12) {
+                    holder.label4.setText("This is your cue. Sprint towards your full potential!");
+                } else if (totalScore >= 13 && totalScore <= 15) {
+                    holder.label4.setText("You've cracked the code of success. Well done!");
+                }
+            }
+                else {
                     holder.label4.setText("Great effort! Keep pushing forward!");
                 }
 
@@ -400,6 +481,7 @@ public class BookPagerAdapter extends RecyclerView.Adapter<BookPagerAdapter.Page
 
                 EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);
 
+                SoundEffectPlayer.playConfettiSound(context);
                 Party party = new PartyFactory(emitterConfig)
                         .angle(270)
                         .spread(90)

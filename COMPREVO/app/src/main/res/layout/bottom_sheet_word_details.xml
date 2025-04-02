@@ -4,7 +4,7 @@
     android:layout_height="550dp"
     android:padding="28dp"
     android:orientation="vertical"
-    android:background="@drawable/bottom_sheet_bg">
+    android:background="@drawable/bg_ai">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="10dp"
@@ -21,12 +21,12 @@
         android:textSize="32sp"
         android:textStyle="bold"
         android:paddingBottom="5dp"
-        android:textColor="#FFFFFF"
+        android:textColor="#393939"
         android:letterSpacing="0.1"
         android:fontFamily="@font/lilitaone_regular"/>
 
     <TextView android:id="@+id/pronunciationText"
-        android:textColor="#FFFFFF"
+        android:textColor="#393939"
         android:fontFamily="@font/noto_sans"
 
         android:textSize="16sp"
@@ -41,7 +41,7 @@
         android:layout_height="match_parent"
         android:text="Loading..."
         android:textSize="48sp"
-        android:textColor="#FFFFFF"
+        android:textColor="#393939"
 
         android:paddingBottom="15dp"
         android:gravity="center"
@@ -73,7 +73,7 @@
                 android:id="@+id/definitionLine"
 
                 android:text="Definition:"
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
 
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -89,7 +89,7 @@
                 />
 
             <TextView android:id="@+id/definitionText"
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
 
                 android:padding="8dp"
                 android:textSize="18sp"
@@ -104,7 +104,7 @@
             <!-- Usage -->
             <TextView android:text="Usage:"
                 android:id="@+id/usageLine"
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
                 android:fontFamily="@font/noto_sans"
                 android:paddingStart="12dp"
 
@@ -117,7 +117,7 @@
                 android:padding="4dp"/>
 
             <TextView android:id="@+id/usageText"
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
                 android:padding="8dp"
                 android:textSize="18sp"
                 android:layout_margin="5dp"
@@ -130,7 +130,7 @@
             <!-- Example Sentence -->
             <TextView android:text="Example:"
                 android:id="@+id/exampleLine"
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
                 android:fontFamily="@font/noto_sans"
                 android:paddingStart="12dp"
 
@@ -143,7 +143,7 @@
                 android:padding="4dp"/>
 
             <TextView android:id="@+id/exampleText"
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
                 android:padding="8dp"
                 android:textSize="18sp"
                 android:layout_margin="5dp"
@@ -157,7 +157,7 @@
             <TextView android:text="Similar Words:"
                 android:id="@+id/similarWordsLine"
 
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
                 android:fontFamily="@font/noto_sans"
                 android:paddingStart="12dp"
 
@@ -170,7 +170,7 @@
                 android:padding="4dp"/>
 
             <TextView android:id="@+id/similarText"
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
 
                 android:padding="8dp"
                 android:textSize="18sp"
@@ -185,7 +185,7 @@
 
 
             <TextView android:id="@+id/labelGenerator"
-                android:textColor="#FFFFFF"
+                android:textColor="#393939"
 
                 android:padding="4dp"
                 android:textSize="8sp"

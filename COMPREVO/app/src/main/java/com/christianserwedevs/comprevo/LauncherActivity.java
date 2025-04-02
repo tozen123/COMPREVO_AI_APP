@@ -18,7 +18,8 @@ public class LauncherActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", null);
-
+        Intent musicServiceIntent = new Intent(this, BackgroundMusicService.class);
+        startService(musicServiceIntent);
         if (username == null || username.isEmpty()) {
             startActivity(new Intent(this, UserCreationActivity.class));
         } else {

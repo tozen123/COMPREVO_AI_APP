@@ -11,7 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.christianserwedevs.comprevo.BackgroundMusicService;
 import com.christianserwedevs.comprevo.R;
+import com.christianserwedevs.comprevo.SoundEffectPlayer;
 
 public class StartMenuActivity extends AppCompatActivity {
 
@@ -25,12 +27,14 @@ public class StartMenuActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
+
             Button startButton = findViewById(R.id.startButton);
             Button aboutButton = findViewById(R.id.aboutButton);
 
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SoundEffectPlayer.playButtonSound(v.getContext());
                     startActivity(new Intent(StartMenuActivity.this, MainActivity.class));
                     finish();
                 }
@@ -40,6 +44,7 @@ public class StartMenuActivity extends AppCompatActivity {
             aboutButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SoundEffectPlayer.playButtonSound(v.getContext());
                     startActivity(new Intent(StartMenuActivity.this, AboutActivity.class));
                 }
             });

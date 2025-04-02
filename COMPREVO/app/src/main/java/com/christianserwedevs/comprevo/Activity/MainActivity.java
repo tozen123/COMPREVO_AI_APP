@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.christianserwedevs.comprevo.R;
+import com.christianserwedevs.comprevo.SoundEffectPlayer;
 
 public class MainActivity extends AppCompatActivity {
     public TextView userNameTxt;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundEffectPlayer.playButtonSound(v.getContext());
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
         });
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         trophyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundEffectPlayer.playButtonSound(v.getContext());
                 startActivity(new Intent(MainActivity.this, ScoreHistoryProgressActivity.class));
             }
         });
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openBookActivity(String bookTitle) {
+        SoundEffectPlayer.playButtonSound(MainActivity.this);
         Intent intent = new Intent(MainActivity.this, BookActivity.class);
         intent.putExtra("bookTitle", bookTitle);
         startActivity(intent);

@@ -7,119 +7,169 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:background="#EBA6C6">
-
-    <TextView
-        android:id="@+id/counterText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="1/3"
-        android:textSize="21sp"
-        android:textColor="@color/truewhite"
-        android:gravity="end"
-        tools:text="$/$"
-        android:fontFamily="@font/lilitaone_regular"/>
-
-    <!-- Question Text -->
-    <TextView
-        android:id="@+id/questionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sample Question"
-        android:textSize="18sp"
-        android:textColor="@color/truewhite"
-        android:textStyle="bold"
-        android:paddingBottom="8dp"
-        android:fontFamily="@font/lilitaone_regular"
-        tools:text="What is the capital of France?" />
-
-    <!-- Radio Group for Quiz Choices -->
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="16dp"/>
-
-    <!-- Explanation Section -->
+    <!-- Countdown Layout -->
     <LinearLayout
-        android:id="@+id/explanationLayout"
+        android:id="@+id/countdownLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible"
-        android:background="@drawable/rounded_panel"
-        android:backgroundTint="#FFFFFF"
-        android:padding="18dp"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/rounded_panel_stroke"
 
+        >
         <TextView
-            android:id="@+id/answerStatusText"
+            android:id="@+id/label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:text="Quiz Time!"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
             android:gravity="center"
-            android:padding="6dp"
-            android:layout_marginBottom="8dp"
-            android:background="#F65454"
-            tools:text="Wrong Answer"
+            android:layout_marginTop="18dp"
+
+            android:layout_marginBottom="18dp"
+
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/lilitaone_regular" />
+        <TextView
+            android:id="@+id/countdownText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textSize="80sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="18dp"
+
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/lilitaone_regular" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+
+        android:id="@+id/quizContentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/counterText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1/3"
+            android:textSize="21sp"
+            android:textColor="@color/truewhite"
+            android:gravity="end"
+            tools:text="$/$"
             android:fontFamily="@font/lilitaone_regular"/>
 
-        <!-- General Explanation -->
+        <!-- Question Text -->
         <TextView
-            android:id="@+id/explanationText"
+            android:id="@+id/questionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#4C4C4C"
-            android:textSize="14sp"
+            android:text="Sample Question"
+            android:textSize="18sp"
+            android:textColor="@color/truewhite"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"
             android:fontFamily="@font/lilitaone_regular"
-            tools:text="Explanation: The correct answer is Paris because..." />
+            tools:text="What is the capital of France?" />
 
-        <!-- "More Info" Button -->
-        <Button
-            android:id="@+id/btnMoreInfo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:text="More Info"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/more_info"
-            app:backgroundTint="#303030"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"/>
-
-        <ScrollView
+        <!-- Radio Group for Quiz Choices -->
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fillViewport="true"
-            android:scrollbars="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="16dp"/>
+
+        <!-- Explanation Section -->
+        <LinearLayout
+            android:id="@+id/explanationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:background="@drawable/rounded_panel"
+            android:backgroundTint="#FFFFFF"
+            android:padding="18dp"
+            android:layout_marginTop="12dp">
 
             <TextView
-                android:id="@+id/detailedExplanationText"
+                android:id="@+id/answerStatusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:padding="6dp"
+                android:layout_marginBottom="8dp"
+                android:background="#F65454"
+                tools:text="Wrong Answer"
+                android:fontFamily="@font/lilitaone_regular"/>
+
+            <!-- General Explanation -->
+            <TextView
+                android:id="@+id/explanationText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#4C4C4C"
                 android:textSize="14sp"
-                android:visibility="gone"
                 android:fontFamily="@font/lilitaone_regular"
-                tools:text="Paris became the capital of France in the 10th century when King Hugh Capet established the Capetian dynasty. Its strategic location along the Seine River played a key role in its prominence."
-                android:padding="8dp"/>
+                tools:text="Explanation: The correct answer is Paris because..." />
 
-        </ScrollView>
+            <!-- "More Info" Button -->
+            <Button
+                android:id="@+id/btnMoreInfo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="More Info"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/more_info"
+                app:backgroundTint="#303030"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fillViewport="true"
+                android:scrollbars="vertical">
+
+                <TextView
+                    android:id="@+id/detailedExplanationText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#4C4C4C"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/lilitaone_regular"
+                    tools:text="Paris became the capital of France in the 10th century when King Hugh Capet established the Capetian dynasty. Its strategic location along the Seine River played a key role in its prominence."
+                    android:padding="8dp"/>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+        <!-- Next Button -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@null"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="8dp"
+            android:textSize="28sp"
+            android:fontFamily="@font/lilitaone_regular"/>
+
+
 
     </LinearLayout>
-
-    <!-- Next Button -->
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:background="@drawable/rounded_button"
-        app:backgroundTint="@null"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp"
-        android:textSize="28sp"
-        android:fontFamily="@font/lilitaone_regular"/>
 </LinearLayout>

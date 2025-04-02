@@ -139,7 +139,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitXY"
                         android:src="@drawable/how_the_world_was_created_cover"/>
 
                     <LinearLayout
@@ -180,9 +180,11 @@
                     app:cardElevation="0dp">
 
                     <ImageView
+
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
+                        android:paddingEnd="10dp"
                         android:src="@drawable/my_father_goes_to_court_book_cover"/>
 
                     <LinearLayout
@@ -226,6 +228,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
                         android:src="@drawable/obesity_book_cover"/>
 
                     <LinearLayout
@@ -239,7 +243,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Obesity (Essay)"
+                            android:text="Obesity"
                             android:textSize="18sp"
                             android:textColor="@color/truewhite"
                             android:fontFamily="@font/lilitaone_regular"
@@ -269,7 +273,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/how_the_world_was_created_cover"/>
+                        android:src="@drawable/the_god_stealer_cover_cover"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -310,7 +314,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/how_the_world_was_created_cover"/>
+                        android:src="@drawable/phili_1st"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.christianserwedevs.comprevo.R;
+import com.christianserwedevs.comprevo.SoundEffectPlayer;
 
 public class UserCreationActivity extends AppCompatActivity {
 
@@ -44,7 +45,7 @@ public class UserCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String username = userNameEditText.getText().toString().trim();
-
+                SoundEffectPlayer.playButtonSound(v.getContext());
                 if (!username.isEmpty()) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("username", username);
