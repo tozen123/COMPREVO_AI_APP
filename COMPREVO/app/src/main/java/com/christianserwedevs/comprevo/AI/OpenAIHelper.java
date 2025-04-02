@@ -5,12 +5,14 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.christianserwedevs.comprevo.BuildConfig;
+
 import okhttp3.*;
 import org.json.JSONObject;
 import java.io.IOException;
 
 public class OpenAIHelper {
-    private static final String API_KEY = "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"; // Secure this properly
+    private static final String API_KEY = BuildConfig.OPENAI_API_KEY;
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
     private static final OkHttpClient client = new OkHttpClient();
     public interface OpenAIResponseCallback {

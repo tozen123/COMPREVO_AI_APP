@@ -1,0 +1,4 @@
+COMPREVO/app/.env
+*.gradle
+*.properties
+*.properties
